@@ -1,4 +1,3 @@
-import re
 from typing import Union
 
 
@@ -14,16 +13,12 @@ class MapExercise:
         :return: Средний рейтинг фильмов у которых две или больше стран
         """
 
-        def get_rating(movie: dict) -> float:
-            return float(movie["rating_kinopoisk"]) if len(movie["country"].split(",")) >= 2 else 0
-
-        def get_rating_medium(rating_list: list) -> float:
-            rating_sum, rating_num = 0, 0
-            for i in rating_list:
-                rating_sum, rating_num = rating_sum + i, rating_num + 1
-            return rating_sum / rating_num
-
-        return get_rating_medium(list(map(get_rating, list_of_movies)))
+        data = filter(lambda x: len(x["country"].split(",")) >= 2, list_of_movies)
+        data = filter(lambda x: int(x["rating_kinopoisk"]) > 0, data)
+        rating_sum = 0
+        for x in data:
+            rating_sum += int(x["rating_kinopoisk"])
+        return rating_sum / len(list(data))
 
     @staticmethod
     def chars_count(list_of_movies: list[dict], rating: Union[float, int]) -> int:
@@ -38,9 +33,5 @@ class MapExercise:
         или равным заданному значению
         """
 
-        def get_name_rait(movie: dict) -> str:
-            if movie["rating_kinopoisk"] >= rating:
-                return movie["name"]
-            return ""
-
-        return len(re.findall("и", "".join(map(get_name_rait, list_of_movies))))
+        data = filter(lambda x: int(x["rating_kinopoisk"]) >= rating, list_of_movies)
+        return sum(map(lambda x: x["name"].count("и"), data))
