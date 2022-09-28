@@ -23,9 +23,16 @@ class ListExercise:
         :param query: Искомый элемент
         :return: Номер элемента
         """
-        i = 0
-        while i <= len(input_list):
-            if input_list[i] == query:
-                return i
-            i += 1
-        return -1
+        low = 0
+        high = len(input_list) - 1
+        search_res = - 1
+        while low <= high:
+            middle = (low + high) // 2
+            guess = input_list[middle]
+            if guess == query:
+                return middle
+            if guess > query:
+                high = middle - 1
+            else:
+                low = middle + 1
+        return search_res
