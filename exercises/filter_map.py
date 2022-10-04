@@ -16,7 +16,8 @@ class FilterMapExercise:
         :return: Отфильтрованный список.
         """
         data = []
-        if func(input_array[0]):
-            for x in input_array[1:]:
-                data.append(func(x)[1])
+        for x in input_array:
+            is_funct, tuple_x = func(x)
+            if is_funct:
+                data.append(tuple_x)
         return data
