@@ -1,3 +1,6 @@
+from functools import reduce
+
+
 class ListExercise:
     @staticmethod
     def replace(input_list: list[int]) -> list[int]:
@@ -7,7 +10,20 @@ class ListExercise:
         :param input_list: Исходный список
         :return: Список с замененными элементами
         """
-        pass
+        if len(input_list) == 0:
+            return input_list
+        """
+        как вариант:
+        maximum_value, replace_list = list[0], []
+        for i in input_list:
+            if i > input_list:
+                maximum_value = i
+        но можно через лямбду с использованием функции reduce()
+        """
+        maximum_value, replace_list = reduce(lambda x, y: x if x > y else y, input_list), []
+        for i in input_list:
+            replace_list.append((i, maximum_value)[i > 0])
+        return replace_list
 
     @staticmethod
     def search(input_list: list[int], query: int) -> int:
@@ -18,4 +34,17 @@ class ListExercise:
         :param query: Искомый элемент
         :return: Номер элемента
         """
-        pass
+
+        low = 0
+        high = len(input_list) - 1
+        search_res = -1
+        while low <= high:
+            middle = (low + high) // 2
+            guess = input_list[middle]
+            if guess == query:
+                return middle
+            if guess > query:
+                high = middle - 1
+            else:
+                low = middle + 1
+        return search_res

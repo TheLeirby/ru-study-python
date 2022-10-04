@@ -12,7 +12,13 @@ class MapExercise:
         Ключи словаря: name, rating_kinopoisk, rating_imdb, genres, year, access_level, country
         :return: Средний рейтинг фильмов у которых две или больше стран
         """
-        pass
+
+        data = filter(lambda x: len(x["country"].split(",")) >= 2, list_of_movies)
+        data = filter(lambda x: int(x["rating_kinopoisk"]) > 0, data)
+        rating_sum = 0
+        for x in data:
+            rating_sum += int(x["rating_kinopoisk"])
+        return rating_sum / len(list(data))
 
     @staticmethod
     def chars_count(list_of_movies: list[dict], rating: Union[float, int]) -> int:
@@ -26,4 +32,6 @@ class MapExercise:
         :return: Количество букв 'и' в названиях всех фильмов с рейтингом больше
         или равным заданному значению
         """
-        pass
+
+        data = filter(lambda x: int(x["rating_kinopoisk"]) >= rating, list_of_movies)
+        return sum(map(lambda x: x["name"].count("и"), data))
