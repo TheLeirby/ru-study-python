@@ -1,3 +1,6 @@
+from functools import reduce
+
+
 class ListExercise:
     @staticmethod
     def replace(input_list: list[int]) -> list[int]:
@@ -9,7 +12,15 @@ class ListExercise:
         """
         if len(input_list) == 0:
             return input_list
-        maximum_value, replace_list = max(input_list), []
+        """
+        как вариант:
+        maximum_value, replace_list = list[0], []
+        for i in input_list:
+            if i > input_list:
+                maximum_value = i
+        но можно через лямбду с использованием функции reduce()
+        """
+        maximum_value, replace_list = reduce(lambda x, y: x if x > y else y, input_list), []
         for i in input_list:
             replace_list.append((i, maximum_value)[i > 0])
         return replace_list
